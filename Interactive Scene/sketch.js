@@ -7,18 +7,15 @@
 // - Resizing the canvas based on the size of the window
 // - Used on-screen text
 // - Imported and used different fonts for text
-// - Implemented Sound
+// - Implemented Sound (background and interactive)
 // - scalar on the cursor that is more satisfying to click on by changing size temporarily
 
 
 
 // Ideas to implement:
 // - Money falling from sky every click (figure out how to make images appear and disappear)
-// - Cha-ching sounds every click (that restart itself)
 // - automatic clicker that you can buy with clicks
 // - title screen
-// - Background music that loops
-// - Keyboard interaction to pause music, change volume, reset (clicks = 0)
 
 
 
@@ -28,6 +25,8 @@ let money, scalar, changingScalar;
 let workerAmount = 0;
 moneyFalling = false;
 let moneyFallingX, moneyFallingY;
+let soundOn = true
+let soundVolume = 50
 
 // Preloading the images, font(s), and sounds used
 function preload() {
@@ -49,7 +48,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   scalar = windowWidth / 30;            // The scalar scales with window width
   changingScalar = windowWidth / 30;
-  backgroundMusic.setVolume(50);
+  backgroundMusic.setVolume(soundVolume);
   backgroundMusic.play();
 
 }
@@ -107,9 +106,6 @@ function draw() {
 
 
 
-
-
-
  // if (moneyFalling) {
  //   image(money, moneyFallingX, moneyFallingY, scalar, scalar);
  //   if (moneyFallingY > 0) {
@@ -127,7 +123,7 @@ function mousePressed() {
   moneyFallingX = random(windowWidth)
   moneyFalling = true;
   changingScalar += 10;
-  moneySound.setVolume(100);
+  moneySound.setVolume(soundVolume);
   moneySound.play();
 }
 
@@ -147,5 +143,40 @@ function windowResized() {
   }
   else if (changingScalar > 150) {
     changingScalar = 150;
+  }
+}
+
+
+function keyTyped() {
+  if (key === "m") {
+    if (soundOn) {
+      backgroundMusic.setVolume(0);
+      backgroundMusic.play();
+      moneySound.setVolume(0);
+      moneySound.play();
+    }
+    else {
+      backgroundMusic.setVolume(soundVolume);
+      backgroundMusic.play();
+      moneySound.setVolume(soundVolume);
+      moneySound.play();
+    }
+  }
+  else if (key === "u") {
+    if (soundVolume < 50) {
+      backgroundMusic.setVolume(soundVolume += 5);
+      // backgroundMusic.play();
+      moneySound.setVolume(soundVolume += 5);
+    }
+  }
+  else if (key === "d") {
+    if (soundVolume > 0) {
+      backgroundMusic.setVolume(soundVolume -= 5);
+      // backgroundMusic.play();
+      moneySound.setVolume(soundVolume -= 5);
+    }
+  }
+  else if (key === "r") {
+    clicks = 0
   }
 }
