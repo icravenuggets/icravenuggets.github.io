@@ -27,6 +27,7 @@ moneyFalling = false;
 let moneyFallingX, moneyFallingY;
 let soundOn = true
 let soundVolume = 50
+let gameOn = 0
 
 // Preloading the images, font(s), and sounds used
 function preload() {
@@ -37,6 +38,7 @@ function preload() {
   room = loadImage('assets/room.jpg');
   office = loadImage('assets/office.jpg');
   beach = loadImage('assets/beach.png');
+  playButton = loadImage('assets/play.png')
   fontObelix = loadFont('assets/obelix.ttf');
   soundFormats('mp3');
   moneySound = loadSound('assets/moneySound.mp3');
@@ -54,75 +56,84 @@ function setup() {
 }
 
 function draw() {
+  if (gameOn === 1) {
   // Background based on progress
-  if (clicks < 100) {
-    image(street, 0, 0, windowWidth, windowHeight);
-    textSize(scalar);
-    fill(255, 0, 0);
-    textFont(fontObelix);
-    text("Living on the streets", 50, 100);
-  }
-  else if (clicks < 1000) {
-    image(garage, 0, 0, windowWidth, windowHeight);
-    textSize(scalar);
-    fill(255, 0, 0);
-    textFont(fontObelix);
-    text("Working from a garage", 50, 100);
-  }
-  else if (clicks < 10000) {
-    image(room, 0, 0, windowWidth, windowHeight);
-    textSize(scalar);
-    fill(255, 0, 0);
-    textFont(fontObelix);
-    text("Decent work place", 50, 100);
-  }
-  else if (clicks < 100000) {
-    image(office, 0, 0, windowWidth, windowHeight);
-    textSize(scalar);
-    fill(255, 0, 0);
-    textFont(fontObelix);
-    text("High quality office", 50, 100);
-  } 
-  else {
-    image(beach, 0, 0, windowWidth, windowHeight);
-    textSize(scalar);
-    fill(255, 0, 0);
-    textFont(fontObelix);
-    text("Rich and retired", 50, 100);
-  }
+    if (clicks < 100) {
+      image(street, 0, 0, windowWidth, windowHeight);
+      textSize(scalar);
+      fill(255, 0, 0);
+      textFont(fontObelix);
+      text("Living on the streets", 50, 100);
+    }
+    else if (clicks < 1000) {
+      image(garage, 0, 0, windowWidth, windowHeight);
+      textSize(scalar);
+      fill(255, 0, 0);
+      textFont(fontObelix);
+      text("Working from a garage", 50, 100);
+    }
+    else if (clicks < 10000) {
+      image(room, 0, 0, windowWidth, windowHeight);
+      textSize(scalar);
+      fill(255, 0, 0);
+      textFont(fontObelix);
+      text("Decent work place", 50, 100);
+    }
+    else if (clicks < 100000) {
+      image(office, 0, 0, windowWidth, windowHeight);
+      textSize(scalar);
+      fill(255, 0, 0);
+      textFont(fontObelix);
+      text("High quality office", 50, 100);
+    } 
+    else {
+      image(beach, 0, 0, windowWidth, windowHeight);
+      textSize(scalar);
+      fill(255, 0, 0);
+      textFont(fontObelix);
+      text("Rich and retired", 50, 100);
+    }
 
-  // Dollar sign on cursor
-  image(dollarSign, mouseX - (changingScalar/2), mouseY - (changingScalar/2), changingScalar, changingScalar);
-  if (changingScalar >= windowWidth/30) {
-    changingScalar -= 2;
+    // Dollar sign on cursor
+    image(dollarSign, mouseX - (changingScalar/2), mouseY - (changingScalar/2), changingScalar, changingScalar);
+    if (changingScalar >= windowWidth/30) {
+      changingScalar -= 2;
+    }
+    
+    // Click counter on-screen
+    textSize(scalar);
+    fill(255)
+    text(clicks, windowWidth - (windowWidth - 100), windowHeight - 200)
+
+    timeCounter += 1
+
+
+
+  // if (moneyFalling) {
+  //   image(money, moneyFallingX, moneyFallingY, scalar, scalar);
+  //   if (moneyFallingY > 0) {
+  //     moneyFallingY -= 1:
+  //   }
+  //   else {
+  //     moneyFalling = 0
+  //   }
+  //  }
   }
-  
-  // Click counter on-screen
-  textSize(scalar);
-  fill(255)
-  text(clicks, windowWidth - (windowWidth - 100), windowHeight - 200)
-
-  timeCounter += 1
-
-
-
- // if (moneyFalling) {
- //   image(money, moneyFallingX, moneyFallingY, scalar, scalar);
- //   if (moneyFallingY > 0) {
- //     moneyFallingY -= 1:
- //   }
- //   else {
- //     moneyFalling = 0
- //   }
-//  }
+  // Title Screen if game is not on
+  else if (gameOn === 0) {
+    background(50, 100, 255);
+    image(playButton, windowWidth / 2 - (scalar * 7 / 2), windowHeight / 2, scalar * 7, scalar * 5);
+  }
 }
 
 // What happens when you click the mouse
 function mousePressed() {
   clicks += 1;
-  moneyFallingX = random(windowWidth)
+  moneyFallingX = random(windowWidth);
   moneyFalling = true;
-  changingScalar += 10;
+  if (changingScalar < windowWidth / 20) {
+    changingScalar += 10;
+  }
   moneySound.setVolume(soundVolume);
   moneySound.play();
 }
