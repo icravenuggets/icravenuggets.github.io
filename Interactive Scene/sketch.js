@@ -8,14 +8,13 @@
 // - Used on-screen text
 // - Imported and used different fonts for text
 // - Implemented Sound (background and interactive)
-// - scalar on the cursor that is more satisfying to click on by changing size temporarily
+// - Scalar on the cursor that is more satisfying to click on by changing size temporarily
+// - A gameOn variable that allows me to have a title screen with a play button
 
 
 
 // Ideas to implement:
-// - Money falling from sky every click (figure out how to make images appear and disappear)
 // - automatic clicker that you can buy with clicks
-// - title screen
 
 
 
@@ -23,8 +22,6 @@ let clicks = 0;
 let timeCounter = 0;
 let money, scalar, changingScalar;
 let workerAmount = 0;
-moneyFalling = false;
-let moneyFallingX, moneyFallingY;
 let soundOn = true
 let soundVolume = 50
 let gameOn = 0
@@ -52,6 +49,7 @@ function setup() {
   changingScalar = windowWidth / 30;
   backgroundMusic.setVolume(soundVolume);
   backgroundMusic.play();
+  noCursor()
 
 }
 
@@ -106,31 +104,27 @@ function draw() {
     text(clicks, windowWidth - (windowWidth - 100), windowHeight - 200)
 
     timeCounter += 1
-
-
-
-  // if (moneyFalling) {
-  //   image(money, moneyFallingX, moneyFallingY, scalar, scalar);
-  //   if (moneyFallingY > 0) {
-  //     moneyFallingY -= 1:
-  //   }
-  //   else {
-  //     moneyFalling = 0
-  //   }
-  //  }
   }
+
   // Title Screen if game is not on
   else if (gameOn === 0) {
     background(50, 100, 255);
-    image(playButton, windowWidth / 2 - (scalar * 7 / 2), windowHeight / 2, scalar * 7, scalar * 5);
+    image(playButton, windowWidth / 2 - (scalar * 3.5), windowHeight / 2, scalar * 7, scalar * 5);
+    textSize(scalar * 2);
+    fill(255)
+    text("Money Clicker Game", windowWidth / 2 - scalar * 10, 200)
+    fill(255, 0, 0)
+    ellipse(mouseX, mouseY, scalar / 3, scalar / 3);
+    if (mouseIsPressed && mouseX > (windowWidth / 2 - (scalar * 3.5)) && mouseX < (windowWidth / 2 - (scalar * 3.5) + (scalar * 7)) && mouseY > windowHeight / 2 && mouseY < windowHeight / 2 + (scalar * 5)) {
+      clicks = 0
+      gameOn = 1
+    }
   }
 }
 
 // What happens when you click the mouse
 function mousePressed() {
   clicks += 1;
-  moneyFallingX = random(windowWidth);
-  moneyFalling = true;
   if (changingScalar < windowWidth / 20) {
     changingScalar += 10;
   }
@@ -176,14 +170,12 @@ function keyTyped() {
   else if (key === "u") {
     if (soundVolume < 50) {
       backgroundMusic.setVolume(soundVolume += 5);
-      // backgroundMusic.play();
       moneySound.setVolume(soundVolume += 5);
     }
   }
   else if (key === "d") {
     if (soundVolume > 0) {
       backgroundMusic.setVolume(soundVolume -= 5);
-      // backgroundMusic.play();
       moneySound.setVolume(soundVolume -= 5);
     }
   }
