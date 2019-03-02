@@ -1,9 +1,8 @@
 // Interactive Scene: Money Clicker Game
 // Alex Chen
-// (Date)
+// March 4, 2019
 //
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
 // - Resizing the canvas based on the size of the window
 // - Used on-screen text
 // - Imported and used different fonts for text
@@ -15,23 +14,19 @@
 //   gets you one click per second
 
 
-
-// Ideas to implement:
-// - Clean and add comments
-
-
 // Defining variables
-let clicks = 0;
 let timeCounter = 0;
 let secondsRunning = 0;
-let money, scalar, changingScalar;
+let clicks, scalar, changingScalar;
 let workerAmount = 0;
 let soundOn = true;
-let soundVolume = 50;
-let gameOn = 0;
+let soundVolume = 1;
+let gameOn = false;
 
-// Preloading the images, font(s), and sounds used
+
+
 function preload() {
+  // Preloading the images, font(s), and sounds used
   dollarSign = loadImage('assets/dollarSign.png');
   money = loadImage('assets/money.png');
   street = loadImage('assets/street.jpg');
@@ -48,33 +43,41 @@ function preload() {
   backgroundMusic = loadSound('assets/backgroundMusic.mp3');
 }
 
-// Creating the canvas
+
+
 function setup() {
+  // Creating the canvas, setting scalars based on window size, starting background music, etc.
   createCanvas(windowWidth, windowHeight);
-  scalar = windowWidth / 30;            // The scalar scales with window width
+  scalar = windowWidth / 30;
   changingScalar = windowWidth / 30;
   backgroundMusic.setVolume(soundVolume);
-  backgroundMusic.play();
+  backgroundMusic.loop();
   noCursor();
 }
 
+
+
 function draw() {
+  // Main game loop
   // Game turns on if gameOn equals 1
-  if (gameOn === 1) {
+  if (gameOn) {
     setting();
     cursorStuff();
     clickCounter();
     countingTime();
   }
 
-  // Title Screen if game is not on
-  else if (gameOn === 0) {
+  else if (!gameOn) {
+    // Title Screen if game is not on
     titleScreen();
   }
 }
 
-// What happens when you click the mouse
+
+
+
 function mousePressed() {
+  // What happens when you click the mouse
   clicks += 1;
   if (changingScalar < windowWidth / 20) {
     changingScalar += 10;
@@ -83,7 +86,10 @@ function mousePressed() {
   moneySound.play();
 }
 
-function titleScreen() {            // Title Screen function if game is not on
+
+
+function titleScreen() {
+  // Title Screen function if game is not on
   background(50, 100, 255);
   image(playButton, windowWidth / 2 - (scalar * 3.5), windowHeight / 2, scalar * 7, scalar * 5);
   textSize(scalar * 2);
@@ -92,29 +98,39 @@ function titleScreen() {            // Title Screen function if game is not on
   fill(255, 0, 0);
   ellipse(mouseX, mouseY, scalar / 3, scalar / 3);
   if (mouseIsPressed && mouseX > (windowWidth / 2 - (scalar * 3.5)) && mouseX < (windowWidth / 2 - (scalar * 3.5) + (scalar * 7)) && mouseY > windowHeight / 2 && mouseY < windowHeight / 2 + (scalar * 5)) {
+    // If you click inside the play button
     clicks = 0;
     gameOn = 1;
   }
 }
 
+
+
+
 function clickCounter() {
-    // Click counter on-screen
+    // Click counter on-screen (also currency)
     textSize(scalar);
     fill(255, 0, 0);
     text("Clicks: $" + clicks, windowWidth / 9, windowHeight - (windowHeight / 2));
 
 }
 
+
+
+
 function cursorStuff() {
-  // Dollar sign on cursor
+  // Dollar sign cursor that changes size
   image(dollarSign, mouseX - (changingScalar/2), mouseY - (changingScalar/2), changingScalar, changingScalar);
   if (changingScalar >= windowWidth/30) {
     changingScalar -= 2;
   }
 }
 
+
+
+
 function countingTime() {
-  // Counting time and workers stuff
+  // Counting time and worker earnings per second
   timeCounter += 1;
   if (timeCounter >= 60) {
     secondsRunning += 1;
@@ -122,7 +138,7 @@ function countingTime() {
     clicks += (workerAmount * 1);
   }
 
-  // Showing seconds Running
+  // Shows seconds that the game has been running
   textSize(scalar);
   fill(255);
   text(secondsRunning, windowWidth - (windowWidth / 7), windowHeight - (windowHeight / 6));
@@ -136,22 +152,25 @@ function countingTime() {
   text(workerAmount, windowWidth - (windowWidth / 2), windowHeight - (windowHeight / 6));
   textSize(scalar / 2);
   fill(255);
-  text("Number of workers (50 each)", windowWidth / 2 - 200, windowHeight - (windowHeight / 6) - 100);
+  text("Number of workers ($50 each)", windowWidth / 2 - 200, windowHeight - (windowHeight / 6) - 100);
 }
 
 
-// The canvas size and cursor size are changed to fit the new window size
+
+
 function windowResized() {
+  // The canvas size and cursor size are changed to fit the new window size
   resizeCanvas(windowWidth, windowHeight);
+  // Maximum and minimum size for the scalars despite window size
   scalar = windowWidth / 30;
-  if (scalar < 30) {                // Scalar size limits in case it gets too small or big
+  if (scalar < 30) {
     scalar = 30;
   }
   else if (scalar > 150) {
     scalar = 150;
   }
   changingScalar = windowWidth / 30;
-  if (changingScalar < 30) {                // Scalar size limits in case it gets too small or big
+  if (changingScalar < 30) {
     changingScalar = 30;
   }
   else if (changingScalar > 150) {
@@ -159,8 +178,11 @@ function windowResized() {
   }
 }
 
+
+
+
 function setting() {
-  // Background based on progress
+  // Background based on amount of dollars
   if (clicks < 100) {
     image(street, 0, 0, windowWidth, windowHeight);
     textSize(scalar);
@@ -180,7 +202,7 @@ function setting() {
     textSize(scalar);
     fill(255, 0, 0);
     textFont(fontObelix);
-    text("Decent work place", 50, 100);
+    text("Medium sized work place", 50, 100);
   }
   else if (clicks < 100000) {
     image(office, 0, 0, windowWidth, windowHeight);
@@ -199,41 +221,51 @@ function setting() {
 }
 
 
+
+
 function keyTyped() {
+  // What happens when you type a key on the keyboard
   if (key === "m") {
+  // "m" mutes or unmutes
     if (soundOn) {
       backgroundMusic.setVolume(0);
-      backgroundMusic.play();
       moneySound.setVolume(0);
-      moneySound.play();
+      soundOn = false;
     }
     else {
       backgroundMusic.setVolume(soundVolume);
-      backgroundMusic.play();
       moneySound.setVolume(soundVolume);
-      moneySound.play();
+      soundOn = true;
     }
   }
   else if (key === "u") {
-    if (soundVolume < 50) {
-      backgroundMusic.setVolume(soundVolume += 5);
-      moneySound.setVolume(soundVolume += 5);
+    // "u" key turns the volume up
+    if (soundVolume < 3 && soundOn) {
+      backgroundMusic.setVolume(soundVolume += 0.1);
+      moneySound.setVolume(soundVolume += 0.1);
     }
   }
   else if (key === "d") {
-    if (soundVolume > 0) {
-      backgroundMusic.setVolume(soundVolume -= 5);
-      moneySound.setVolume(soundVolume -= 5);
+    // "d" key turns the volume down
+    if (soundVolume > 0.2 && soundOn) {
+      backgroundMusic.setVolume(soundVolume -= 0.1);
+      moneySound.setVolume(soundVolume -= 0.1);
     }
   }
   else if (key === "r") {
+    // "r" key resets clicks and worker amount
     clicks = 0;
+    workerAmount = 0;
+    secondsRunning = 0;
   }
 
   else if (key === "w") {
+    // "w" key gives you a worker in exchange for 50 clicks
     if (clicks >= 50) {
       workerAmount += 1;
       clicks -= 50;
     }
   }
 }
+
+
