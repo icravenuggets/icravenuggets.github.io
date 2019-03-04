@@ -14,6 +14,17 @@
 //   gets you one click per second
 
 
+
+// Instructions:
+// - click on the screen to gain clicks (currency)
+// - The background changes as you progress to show a new and improved work place
+// - press "w" to get a worker (costs 50) that automatically earns you one click per second
+// - press "r" to reset the game
+// - press "m" to mute or unmute (toggle)
+// - press "u" to turn up the volume
+// - press "d" to turn down the volume
+
+
 // Defining variables
 let timeCounter = 0;
 let secondsRunning = 0;
