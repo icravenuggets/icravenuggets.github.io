@@ -5,11 +5,10 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-
 let gameState = "mainMenu";
-let buttonScalarWidth, buttonScalarHeight, buttonRadiusWidth, buttonRadiusHeight, turn;
+let button;
+let turn = 0;
 let winState = 0;
-
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -17,6 +16,7 @@ function setup() {
   textAlign(CENTER, CENTER);
   textSize(100);
   createBoard();
+  noCursor();
 }
 
 function preload() {
@@ -31,10 +31,12 @@ function windowResized() {
 }
 
 function resizeScalars() {
-  buttonScalarWidth = windowWidth / 5;
-  buttonScalarHeight = windowHeight / 5;
-  buttonRadiusHeight = (windowHeight/ 5) / 2;
-  buttonRadiusWidth = (windowWidth / 5) / 2;
+  button = {
+    ScalarWidth: windowWidth / 5,
+    ScalarHeight: windowHeight / 5,
+    RadiusWidth: windowWidth / 5 / 2,
+    RadiusHeight: windowHeight / 5 / 2,
+  }
 }
 
 
@@ -57,6 +59,8 @@ function drawBoardLines() {
 function draw() {
   background(255);
   pickingGameState();
+  drawCursor();
+  console.log(gameState)
 }
 
 
@@ -71,15 +75,14 @@ function pickingGameState() {
     instructionsMenu();
   }
   if (gameState === "game") {
-    turn = random(2)
     game();
   }
 }
 
 
 function mainMenu() {
-  image(playButton, (windowWidth / 2) - buttonRadiusWidth, (windowHeight / 2) - buttonRadiusHeight, buttonScalarWidth, buttonScalarHeight);
-  if (mouseIsPressed && mouseX < windowWidth / 2 + buttonRadiusWidth && mouseX > windowWidth / 2 - buttonRadiusWidth && mouseY < windowHeight / 2 + buttonRadiusHeight && mouseY > windowHeight / 2 - buttonRadiusHeight) {
+  image(playButton, (windowWidth / 2) - button.RadiusWidth, (windowHeight / 2) - button.RadiusHeight, button.ScalarWidth, button.ScalarHeight);
+  if (mouseIsPressed && mouseX < windowWidth / 2 + button.RadiusWidth && mouseX > windowWidth / 2 - button.RadiusWidth && mouseY < windowHeight / 2 + button.RadiusHeight && mouseY > windowHeight / 2 - button.RadiusHeight) {
     gameState = "game";
   }
 
@@ -97,7 +100,23 @@ function game() {
   drawBoardLines();
 }
 
-
+function drawCursor() {
+  if (gameState != "game") {
+    fill(255, 0, 0)
+    noStroke()
+    ellipse(mouseX, mouseY, 10, 10)
+  }
+  else if (gameState === "game") {
+    fill(0)
+    text("X", mouseX, mouseY)
+  //   if (turn === 1) {
+  //     text("X", mouseX, mouseY);
+  //   }
+  //   if (turn === 2) {
+  //     text("O", mouseX, mouseY);
+  //   }
+  }
+}
 
 
 
@@ -124,17 +143,7 @@ function game() {
 
 // 	drawBoard();
 
-// 	if (turn === 1) {
-
-// 		text("X", mouseX, mouseY);
-
-// 	}
-
-// 	if (turn === 2) {
-
-// 		text("O", mouseX, mouseY);
-
-// 	}
+	
 
 // 	for(let i = 0; i < tic.length; i++) {
 
