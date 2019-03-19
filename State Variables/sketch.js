@@ -47,8 +47,10 @@ function setup() {
 
 function preload() {
   playButton = loadImage("assets/play.png");
-  instructionsButton = loadImage("assets/play.png");
   optionsButton = loadImage("assets/play.png");
+  pvpButton = loadImage("assets/pvp.png");
+  easyButton = loadImage("assets/easy.png");
+  hardButton = loadImage("assets/hard.png");
 }
 
 function windowResized() {
@@ -89,14 +91,14 @@ function pickingGameState() {
   if (gameState === "mainMenu") {
     mainMenu();
   }
-  if (gameState === "optionsMenu") {
+  else if (gameState === "optionsMenu") {
     optionsMenu();
   }
-  if (gameState === "instructionsMenu") {
-    instructionsMenu();
-  }
-  if (gameState === "game") {
+  else if (gameState === "game") {
     game();
+  }
+  else if (gameState === "gameMenu") {
+    gameMenu();
   }
 }
 
@@ -106,6 +108,9 @@ function initiateBoard() {
 
 
 function mainMenu() {
+  fill(0);
+  textSize(windowWidth / 7);
+  text("Tic Tac Toe", windowWidth / 2, windowHeight / 4);
   image(playButton, (windowWidth / 2) - button.RadiusWidth, (windowHeight / 2) - button.RadiusHeight, button.ScalarWidth, button.ScalarHeight);
 }
 
@@ -113,8 +118,8 @@ function optionsMenu() {
 
 }
 
-function instructionsMenu() {
-
+function gameMenu() {
+  image(pvpButton, (windowWidth / 3) - button.RadiusWidth, (windowHeight / 3) - button.RadiusHeight, button.ScalarWidth, button.ScalarHeight);
 }
 
 function game() {
@@ -184,7 +189,12 @@ function mousePressed() {
     }
   }
   else if (gameState === "mainMenu") {
-    if (mouseIsPressed && mouseX < windowWidth / 2 + button.RadiusWidth && mouseX > windowWidth / 2 - button.RadiusWidth && mouseY < windowHeight / 2 + button.RadiusHeight && mouseY > windowHeight / 2 - button.RadiusHeight) {
+    if (mouseX < windowWidth / 2 + button.RadiusWidth && mouseX > windowWidth / 2 - button.RadiusWidth && mouseY < windowHeight / 2 + button.RadiusHeight && mouseY > windowHeight / 2 - button.RadiusHeight) {
+      gameState = "gameMenu";
+    }
+  }
+  else if (gameState === "gameMenu") {
+    if (mouseX < windowWidth / 3 - button.RadiusWidth) {
       gameState = "game";
     }
   }
