@@ -31,7 +31,7 @@
 
 
 
-let button, turn, blockSizeX, blockSizeY, clickSpotX, clickSpotY, tilesCounter, winState, gameState;
+let button, turn, blockSizeX, blockSizeY, clickSpotX, clickSpotY, tilesCounter, winState, gameState, tempSpotX, tempSpotY;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -100,6 +100,9 @@ function pickingGameState() {
   else if (gameState === "gameMenu") {
     gameMenu();
   }
+  else if (gameState === "easyMode") {
+    easyMode();
+  }
 }
 
 function initiateBoard() {
@@ -119,7 +122,17 @@ function optionsMenu() {
 }
 
 function gameMenu() {
-  image(pvpButton, (windowWidth / 3) - button.RadiusWidth, (windowHeight / 3) - button.RadiusHeight, button.ScalarWidth, button.ScalarHeight);
+  image(pvpButton, (windowWidth / 2) - button.RadiusWidth, (windowHeight / 3) - button.RadiusHeight, button.ScalarWidth, button.ScalarHeight);
+  image(easyButton, (windowWidth / 2) - button.RadiusWidth, (windowHeight - windowHeight / 3) - button.RadiusHeight, button.ScalarWidth, button.ScalarHeight);
+}
+
+function easyMode() {
+  drawBoardLines();
+  fillInBlocks();
+  checkForWinner();
+  isWinner();
+  checkForTie();
+  aiTurnToPlay();
 }
 
 function game() {
@@ -150,6 +163,7 @@ function drawCursor() {
 
 
 function fillInBlocks() {
+  fill(0);
   if (windowWidth > windowHeight)
     textSize(windowHeight / 3);
   else {
@@ -186,6 +200,22 @@ function mousePressed() {
     else if (winState > 0) {
       initiateBoard();
       winState = 0
+      turn = floor(random(1, 3));
+    }
+  }
+  else if (gameState === "easyMode") {
+    if (winState === 0 && turn === 1) {
+      clickSpotX = floor(mouseX / blockSizeX);
+      clickSpotY = floor(mouseY / blockSizeY);
+      if (board[clickSpotX][clickSpotY] === 0) {
+        board[clickSpotX][clickSpotY] = turn;
+        turn = 2;
+      }
+    }
+    else if (winState > 0) {
+      initiateBoard();
+      winState = 0
+      turn = floor(random(1, 3));
     }
   }
   else if (gameState === "mainMenu") {
@@ -194,11 +224,27 @@ function mousePressed() {
     }
   }
   else if (gameState === "gameMenu") {
-    if (mouseX < windowWidth / 3 - button.RadiusWidth) {
+    if (mouseX < windowWidth / 2 + button.RadiusWidth && mouseX > windowWidth / 2 - button.RadiusWidth && mouseY < windowHeight / 3 + button.RadiusHeight && mouseY > windowHeight / 3 - button.RadiusHeight) {
       gameState = "game";
+    }
+    else if (mouseX < windowWidth / 2 + button.RadiusWidth && mouseX > windowWidth / 2 - button.RadiusWidth && mouseY < windowHeight - windowHeight / 3 + button.RadiusHeight && mouseY > windowHeight - windowHeight / 3 - button.RadiusHeight) {
+      gameState = "easyMode";
     }
   }
 }
+
+function aiTurnToPlay() {
+  if (turn === 2 && winState === 0) {
+    tempSpotX = floor(random(0, 3));
+    tempSpotY = floor(random(0, 3));
+    if (board[tempSpotX][tempSpotY] === 0) {
+      
+      board[tempSpotX][tempSpotY] = 2;
+      turn = 1;
+    }
+  }
+}
+
 
 
 function checkForWinner() {
