@@ -3,16 +3,17 @@
 // Date
 //
 // State Variables usage:
-// - Game state, and other states for different menus (options and instructions)
-// - Different game state if it is an AI game
+// - Game state
+// - Different states for different menus
+// - Different state if it is the AI's turn to play
 // - Win state that changes if someone wins
 //
 // Extra for Experts:
 // - Arrays
+// - Simple AI
 //
 // Ideas for Stuff to Do:
-// - Simple and complex AI
-//    - Easy: Random
+// - Complex AI
 //    - Medium: Tries to stay alive
 //    - Hard: With Algorithm
 // - Options menu
@@ -31,7 +32,7 @@
 
 
 
-let button, turn, blockSizeX, blockSizeY, clickSpotX, clickSpotY, tilesCounter, winState, gameState, tempSpotX, tempSpotY;
+let button, turn, blockSizeX, blockSizeY, clickSpotX, clickSpotY, tilesCounter, winState, gameState, tempSpotX, tempSpotY, fpsTimer, timer;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -43,11 +44,13 @@ function setup() {
   initiateBoard();
   gameState = "mainMenu";
   winState = 0;
+  timer = 0;
+  fpsTimer = 0;
 }
 
 function preload() {
   playButton = loadImage("assets/play.png");
-  optionsButton = loadImage("assets/play.png");
+  optionsButton = loadImage("assets/options.png");
   pvpButton = loadImage("assets/pvp.png");
   easyButton = loadImage("assets/easy.png");
   hardButton = loadImage("assets/hard.png");
@@ -84,6 +87,8 @@ function draw() {
   background(255);
   pickingGameState();
   drawCursor();
+  timeCounting();
+  fpsTimer += 1;
 }
 
 
@@ -115,6 +120,7 @@ function mainMenu() {
   textSize(windowWidth / 7);
   text("Tic Tac Toe", windowWidth / 2, windowHeight / 4);
   image(playButton, (windowWidth / 2) - button.RadiusWidth, (windowHeight / 2) - button.RadiusHeight, button.ScalarWidth, button.ScalarHeight);
+  image(optionsButton, windowWidth / 2 - button.RadiusWidth, windowHeight - windowHeight / 4 - button.RadiusHeight, button.ScalarWidth, button.ScalarHeight);
 }
 
 function optionsMenu() {
@@ -210,6 +216,8 @@ function mousePressed() {
       if (board[clickSpotX][clickSpotY] === 0) {
         board[clickSpotX][clickSpotY] = turn;
         turn = 2;
+        timer = 0;
+        fpsTimer = 0;
       }
     }
     else if (winState > 0) {
@@ -238,13 +246,20 @@ function aiTurnToPlay() {
     tempSpotX = floor(random(0, 3));
     tempSpotY = floor(random(0, 3));
     if (board[tempSpotX][tempSpotY] === 0) {
-      
-      board[tempSpotX][tempSpotY] = 2;
-      turn = 1;
+      if (timer > 0) {
+        board[tempSpotX][tempSpotY] = 2;
+        turn = 1;
+      }
     }
   }
 }
 
+function timeCounting() {
+  if (fpsTimer >= 60) {
+    timer += 1;
+    fpsTimer = 0;
+  }
+}
 
 
 function checkForWinner() {
