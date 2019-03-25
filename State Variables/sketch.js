@@ -32,7 +32,7 @@
 
 
 // Defining variables
-let button, turn, blockSizeX, blockSizeY, clickSpotX, clickSpotY, tilesCounter, winState, gameState, tempSpotX, tempSpotY, fpsTimer, timer;
+let button, turn, blockSizeX, blockSizeY, clickSpotX, clickSpotY, tilesCounter, winState, gameState, soundVolume, tempSpotX, tempSpotY, fpsTimer, timer;
 
 function setup() {
 // Setup functions including canvas, noCursor, and defining some of the variables above such as default game states
@@ -47,6 +47,7 @@ function setup() {
   winState = 0;
   timer = 0;
   fpsTimer = 0;
+  soundVolume = 2;
 }
 
 function preload() {
@@ -56,6 +57,11 @@ function preload() {
   pvpButton = loadImage("assets/pvp.png");
   easyButton = loadImage("assets/easy.png");
   hardButton = loadImage("assets/hard.png");
+  clickSound = loadSound('assets/clickSound.wav');
+  menuOne = loadSound('assets/menuOne.wav');
+  menuTwo = loadSound('assets/menuTwo.wav');
+  menuThree = loadSound('assets/menuThree.wav');
+  winSound = loadSound('assets/winSound.wav');
 }
 
 function windowResized() {
@@ -214,6 +220,7 @@ function mousePressed() {
       clickSpotY = floor(mouseY / blockSizeY);
       if (board[clickSpotX][clickSpotY] === 0) {
         board[clickSpotX][clickSpotY] = turn;
+        clickSound.play();
         if (turn === 1) {
           turn = 2;
         }
@@ -236,6 +243,7 @@ function mousePressed() {
       clickSpotY = floor(mouseY / blockSizeY);
       if (board[clickSpotX][clickSpotY] === 0) {
         board[clickSpotX][clickSpotY] = turn;
+        clickSound.play();
         turn = 2;
         timer = 0;
         fpsTimer = 0;
