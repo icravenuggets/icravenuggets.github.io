@@ -9,17 +9,18 @@
 let tilesScalar, windowSize, tileSize, tileSpot;
 let field = [];
 
+function preload() {
+  initArray();
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   windowResized();
-  initArray();
-
 }
 
 function draw() {
-  drawBackground();
   drawTiles();
+  assignTiles();
 
 }
 
@@ -40,7 +41,18 @@ function initArray() {
   field = loadStrings(levelToLoad);
 }
 
-function drawBackground() {
+
+
+function assignTiles() {
+  for (let i = 0; i < windowSize / tileSize; i ++) {
+    for (let j = 0; j < windowSize /tileSize; j ++) {
+      tileSpot = field[i][j];
+    }
+  }
+}
+
+
+function drawTiles() {
   for (let i = 0; i < windowSize / tileSize; i ++) {
     for (let j = 0; j < windowSize /tileSize; j ++) {
       showTiles(field[i][j], i, j);
@@ -53,7 +65,7 @@ function showTiles(location, x, y) {
     fill(122, 122, 122);
     rect(x * tileSize, y * tileSize, tileSize, tileSize);
   }
-  if (tileSpot === "#") {
+  else if (tileSpot === "#") {
     fill(50, 40, 40);
     rect(x * tileSize, y * tileSize, tileSize, tileSize);
   }
