@@ -6,8 +6,31 @@
 // - describe what you did to take this project "above and beyond"
 
 
+
+// class fireSpell {
+//   constructor(startingX, startingY, speed, direction) {
+//     this.x = startingX;
+//     this.y = startingY;
+//     this.size = tileSize;
+//     this.speed = speed;
+//     this.direction = direction;
+//   }
+
+//   display() {
+//     image()
+//   }
+
+//   move() {
+
+//   }
+// }
+
 let tilesScalar, windowSize, tileSize, tileSpot;
 let field = [];
+let playerOne, playerX, playerY;
+
+
+
 
 function preload() {
   initArray();
@@ -16,12 +39,15 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   windowResized();
+  playerOne = {
+    x: playerX,
+    y: playerY,
+    direction: "up"
+  };
 }
 
 function draw() {
-  drawTiles();
   assignTiles();
-
 }
 
 function windowResized() {
@@ -44,21 +70,18 @@ function initArray() {
 
 
 function assignTiles() {
-  for (let i = 0; i < windowSize / tileSize; i ++) {
-    for (let j = 0; j < windowSize /tileSize; j ++) {
-      tileSpot = field[i][j];
+  for (let j = 0; j < windowSize /tileSize; j ++) {
+    for (let i = 0; i < windowSize / tileSize; i ++) {
+      tileSpot = field[j][i];
+      if (tileSpot === "p") {
+        playerX = field[j];
+        playerY = field[i];
+      }
+      showTiles(field[j][i], i, j);
     }
   }
 }
 
-
-function drawTiles() {
-  for (let i = 0; i < windowSize / tileSize; i ++) {
-    for (let j = 0; j < windowSize /tileSize; j ++) {
-      showTiles(field[i][j], i, j);
-    }
-  }
-}
 
 function showTiles(location, x, y) {
   if (tileSpot === ".") {
@@ -68,5 +91,16 @@ function showTiles(location, x, y) {
   else if (tileSpot === "#") {
     fill(50, 40, 40);
     rect(x * tileSize, y * tileSize, tileSize, tileSize);
+  }
+  else if (tileSpot === "p") {
+    fill(255, 0, 0);
+    rect(x * tileSize, y * tileSize, tileSize, tileSize);
+  }
+}
+
+
+function keyTyped() {
+  if (key === "w") {
+
   }
 }

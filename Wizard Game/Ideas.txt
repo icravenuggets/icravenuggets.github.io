@@ -1,0 +1,16 @@
+Ideas to Implement:
+
+ - Wizards shooting fireballs at each other (Real-time strategy with casting cooldowns)
+ - Grid based
+ - 3 Different types of spells (rock, paper, scissors style) that look and act different
+ - Good cursor
+ - Nice looking start Screen with font
+ - Options Menu
+ - PvP and PvE
+ - Upgrades that cost currency
+ - Remembers your data (with option to delete)
+ - Sound
+
+
+
+ - Different maps (battlefields)
