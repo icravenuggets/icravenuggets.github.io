@@ -7,26 +7,27 @@
 
 
 
-// class fireSpell {
-//   constructor(startingX, startingY, speed, direction) {
-//     this.x = startingX;
-//     this.y = startingY;
-//     this.size = tileSize;
-//     this.speed = speed;
-//     this.direction = direction;
-//   }
+class fireSpell {
+  constructor(startingX, startingY, speed, direction) {
+    this.x = startingX;
+    this.y = startingY;
+    this.size = tileSize;
+    this.speed = speed;
+    this.direction = direction;
+  }
 
-//   display() {
-//     image()
-//   }
+  display() {
+    image(startingX, startingY, tileSize, tileSize)
+  }
 
 //   move() {
-
+       
 //   }
-// }
+}
 
 let tilesScalar, windowSize, tileSize, tileSpot;
 let field = [];
+let spells = [];
 let playerOne, playerX, playerY;
 
 
@@ -39,15 +40,18 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   windowResized();
+  playerX = 9;
+  playerY = 18;
   playerOne = {
     x: playerX,
     y: playerY,
-    direction: "up"
+    direction: "down"
   };
 }
 
 function draw() {
   assignTiles();
+  showStuff();
 }
 
 function windowResized() {
@@ -73,17 +77,13 @@ function assignTiles() {
   for (let j = 0; j < windowSize /tileSize; j ++) {
     for (let i = 0; i < windowSize / tileSize; i ++) {
       tileSpot = field[j][i];
-      if (tileSpot === "p") {
-        playerX = field[j];
-        playerY = field[i];
-      }
-      showTiles(field[j][i], i, j);
+      showBackground(field[j][i], i, j);
     }
   }
 }
 
 
-function showTiles(location, x, y) {
+function showBackground(location, x, y) {
   if (tileSpot === ".") {
     fill(122, 122, 122);
     rect(x * tileSize, y * tileSize, tileSize, tileSize);
@@ -92,15 +92,29 @@ function showTiles(location, x, y) {
     fill(50, 40, 40);
     rect(x * tileSize, y * tileSize, tileSize, tileSize);
   }
-  else if (tileSpot === "p") {
-    fill(255, 0, 0);
-    rect(x * tileSize, y * tileSize, tileSize, tileSize);
-  }
+}
+
+function showStuff() {
+  fill(255);
+  rect(tileSize * playerX, tileSize * playerY, tileSize, tileSize);
 }
 
 
 function keyTyped() {
   if (key === "w") {
-
+    playerOne.direction = "up";
+    playerY -= 1;
+  }
+  else if (key === "s") {
+    playerOne.direction = "down";
+    playerY += 1;
+  }
+  else if (key === "a") {
+    playerOne.direction = "left";
+    playerX -= 1;
+  }
+  else if (key === "d") {
+    playerOne.direction = "right";
+    playerX += 1;
   }
 }
