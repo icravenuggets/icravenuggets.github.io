@@ -8,16 +8,17 @@
 
 
 class fireSpell {
-  constructor(startingX, startingY, speed, direction) {
+  constructor(startingX, startingY) { //, speed, direction
     this.x = startingX;
     this.y = startingY;
     this.size = tileSize;
-    this.speed = speed;
-    this.direction = direction;
+    // this.speed = speed;
+    // this.direction = direction;
   }
 
   display() {
-    image(startingX, startingY, tileSize, tileSize)
+    fill(255, 0, 0)
+    rect(this.x, this.y, tileSize, tileSize)
   }
 
 //   move() {
@@ -25,10 +26,10 @@ class fireSpell {
 //   }
 }
 
-let tilesScalar, windowSize, tileSize, tileSpot;
+let tilesScalar, windowSize, tileSize, tileSpot, startingX, startingY;
 let field = [];
 let spells = [];
-let playerOne, playerX, playerY;
+let playerDirection, playerX, playerY;
 
 
 
@@ -42,16 +43,12 @@ function setup() {
   windowResized();
   playerX = 9;
   playerY = 18;
-  playerOne = {
-    x: playerX,
-    y: playerY,
-    direction: "down"
-  };
 }
 
 function draw() {
   assignTiles();
   showStuff();
+  field[playerX][playerY] = "p";
 }
 
 function windowResized() {
@@ -92,29 +89,54 @@ function showBackground(location, x, y) {
     fill(50, 40, 40);
     rect(x * tileSize, y * tileSize, tileSize, tileSize);
   }
+  else if (tileSpot === "p") {
+    fill(255);
+    rect(tileSize * playerX, tileSize * playerY, tileSize, tileSize);
+  }
 }
 
 function showStuff() {
-  fill(255);
-  rect(tileSize * playerX, tileSize * playerY, tileSize, tileSize);
+  for (let i = 0; i < spells.length; i++) {
+    spells[i].display();
+  }
 }
 
 
 function keyTyped() {
   if (key === "w") {
-    playerOne.direction = "up";
+    playerDirection = "up";
+    field[playerX][playerY] = "."
     playerY -= 1;
+    field[playerX][playerY] = "p"
   }
   else if (key === "s") {
-    playerOne.direction = "down";
+    playerDirection = "down";
     playerY += 1;
   }
   else if (key === "a") {
-    playerOne.direction = "left";
+    playerDirection = "left";
     playerX -= 1;
   }
   else if (key === "d") {
-    playerOne.direction = "right";
+    playerDirection = "right";
     playerX += 1;
+  }
+  else if (key === "c") {
+    if (playerDirection === "up") {
+      let someSpell = new fireSpell(playerX * tileSize, (playerY - 1) * tileSize); //, 3, "up"
+      spells.push(someSpell);
+    }
+    else if (playerDirection === "down") {
+      let someSpell = new fireSpell(playerX * tileSize, (playerY + 1) * tileSize); //, 3, "up"
+      spells.push(someSpell);
+    }
+    else if (playerDirection === "left") {
+      let someSpell = new fireSpell((playerX - 1) * tileSize, playerY * tileSize); //, 3, "up"
+      spells.push(someSpell);
+    }
+    else if (playerDirection === "right") {
+      let someSpell = new fireSpell((playerX + 1) * tileSize, playerY * tileSize); //, 3, "up"
+      spells.push(someSpell);
+    }
   }
 }
