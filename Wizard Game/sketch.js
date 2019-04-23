@@ -26,10 +26,11 @@ class fireSpell {
 //   }
 }
 
-let tilesScalar, windowSize, tileSize, tileSpot, startingX, startingY;
+let tilesScalar, windowSize, tileSize, tileSpot, startingX, startingY, tilesHigh, tilesWide, tempString;
 let field = [];
 let spells = [];
 let playerDirection, playerX, playerY;
+let tilesLarge = 20;
 
 
 
@@ -41,14 +42,18 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   windowResized();
-  playerX = 9;
-  playerY = 18;
+  // playerX = 9;
+  // playerY = 18;
+  playerDirection = "up";
+  
+  tempString = loadStrings(levelToLoad);
+  field = createEmpty2dArray(tilesLarge);
 }
 
 function draw() {
   assignTiles();
   showStuff();
-  field[playerX][playerY] = "p";
+  // field[playerX][playerY] = "p";
 }
 
 function windowResized() {
@@ -65,40 +70,65 @@ function windowResized() {
 
 function initArray() {
   levelToLoad = "assets/levels/template.txt";
-  field = loadStrings(levelToLoad);
 }
 
 
 
 function assignTiles() {
-  for (let j = 0; j < windowSize /tileSize; j ++) {
-    for (let i = 0; i < windowSize / tileSize; i ++) {
-      tileSpot = field[j][i];
-      showBackground(field[j][i], i, j);
+  for (let j = 0; j < tempString.length; j ++) {
+    for (let i = 0; i < tempString.length; i ++) {
+      tileSpot = tempString[j][i];
+      // showTiles(field[j][i], i, j);
+      if (tileSpot === ".") {
+        fill(122, 122, 122);
+        rect(i * tileSize, j * tileSize, tileSize, tileSize);
+      }
+      else if (tileSpot === "#") {
+        fill(50, 40, 40);
+        rect(i * tileSize, j * tileSize, tileSize, tileSize);
+      }
+      else if (tileSpot === "p") {
+        fill(255);
+        rect(tileSize * i, tileSize * j, tileSize, tileSize);
+        // playerX = i;
+        // playerY = j;
+      }
     }
   }
 }
 
 
-function showBackground(location, x, y) {
-  if (tileSpot === ".") {
-    fill(122, 122, 122);
-    rect(x * tileSize, y * tileSize, tileSize, tileSize);
-  }
-  else if (tileSpot === "#") {
-    fill(50, 40, 40);
-    rect(x * tileSize, y * tileSize, tileSize, tileSize);
-  }
-  else if (tileSpot === "p") {
-    fill(255);
-    rect(tileSize * playerX, tileSize * playerY, tileSize, tileSize);
-  }
-}
+// function showTiles(location, x, y) {
+//   if (tileSpot === ".") {
+//     fill(122, 122, 122);
+//     rect(x * tileSize, y * tileSize, tileSize, tileSize);
+//   }
+//   else if (tileSpot === "#") {
+//     fill(50, 40, 40);
+//     rect(x * tileSize, y * tileSize, tileSize, tileSize);
+//   }
+//   else if (tileSpot === "p") {
+//     fill(255);
+//     rect(tileSize * playerX, tileSize * playerY, tileSize, tileSize);
+//   }
+// }
 
 function showStuff() {
   for (let i = 0; i < spells.length; i++) {
     spells[i].display();
   }
+}
+
+
+function createEmpty2dArray(tilesLarge) {
+  let someGrid = [];
+  for (let x = 0; x < tilesLarge; x++) {
+    someGrid.push(["."]);
+    for (let y = 0; y < tilesLarge; y++) {
+      someGrid[x].push(".");
+    }
+  }
+  return someGrid;
 }
 
 
