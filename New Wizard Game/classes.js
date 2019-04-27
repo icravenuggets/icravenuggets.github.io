@@ -1,7 +1,9 @@
-
+// I kept the spells as separate classes even though they are very similar because I plan
+// to take these much further than they currently are at in terms of behavioural differences
 
 
 class fireSpell {
+  // Firespell beats grass but disappears if it collides with a water spell
   constructor(startingX, startingY, speed, direction) {
     this.x = startingX;
     this.y = startingY;
@@ -68,6 +70,7 @@ class fireSpell {
 
 
 class waterSpell {
+  // beats fire but loses to grass
   constructor(startingX, startingY, speed, direction) {
     this.x = startingX;
     this.y = startingY;
@@ -136,6 +139,7 @@ class waterSpell {
 
 
 class grassSpell {
+  // beats water, loses to fire
   constructor(startingX, startingY, speed, direction) {
     this.x = startingX;
     this.y = startingY;

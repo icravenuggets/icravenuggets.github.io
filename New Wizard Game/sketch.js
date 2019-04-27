@@ -3,6 +3,7 @@
 
 
 function draw() {
+  // main draw loop consisting of functions that need to be called constantly
   assignTiles();
   spellStuff();
   countingTime();
@@ -11,8 +12,7 @@ function draw() {
 
 
 function assignTiles() {
-  background(122, 122, 122);
-
+  // combined with the showTiles function, this assigns and displays an image depending on array
   for (let y = 0; y < amountOfTiles; y++) {
     for (let x = 0; x < amountOfTiles; x++) {
       showTiles(x, y);
@@ -21,6 +21,8 @@ function assignTiles() {
 }
 
 function showTiles(x, y) {
+  // displays an image based on what the given spot is in an array (for ex. grey square if the spot
+  // in the array contains a ".", which is the background)
   if (field[x][y] === ".") {
     fill(122, 122, 122);
     rect(x * tileSize, y * tileSize, tileSize, tileSize);
@@ -45,6 +47,7 @@ function showTiles(x, y) {
 
 
 function showPlayer(x, y) {
+  // Depending on the state variable playerDirection, this displays the appropriate image of the player
   if (playerDirection === "up") {
     image(playerUp, x * tileSize, y * tileSize, tileSize, tileSize)
   }
@@ -61,6 +64,7 @@ function showPlayer(x, y) {
 
 
 function keyTyped() {
+  // called if a key on the keyboard is pressed
   if (gameState === "game") {
     playerMovement();
     castingSpells();
@@ -68,6 +72,7 @@ function keyTyped() {
 }
 
 function playerMovement() {
+  // called by the keyTyped() function, this sees which key was pressed and moves the player as needed
   if (key === "w") {
     playerDirection = "up";
     if (field[playerX][playerY - 1] != "#") {
@@ -103,9 +108,13 @@ function playerMovement() {
 }
 
 function castingSpells() {
+  // if the key pressed in keyTyped() is not a movement key, but a spell, this is called to cast the spell
   if ((key === "c" || key === "v" || key === "b") && millis() - cooldownTimer >= 1000) {
+    // this is to add a cooldown so that you cannot shoot spells too quickly
     if (key === "c") {
+      // fire spell
       if (playerDirection === "up" && field[playerX][playerY - 1] != "#") {
+        // these shoot the spell in the correct direction and location and make new objects from the class
         let someSpell = new fireSpell(playerX, playerY - 1, 3, "up");
         spells.push(someSpell);
         cooldownTimer = millis();
@@ -127,6 +136,7 @@ function castingSpells() {
       }
     }
     else if (key === "v") {
+      // water spell
       if (playerDirection === "up" && field[playerX][playerY - 1] != "#") {
         let someSpell = new waterSpell(playerX, playerY - 1, 3, "up");
         spells.push(someSpell);
@@ -149,6 +159,7 @@ function castingSpells() {
       }
     }
     else if (key === "b") {
+      // grass spell
       if (playerDirection === "up" && field[playerX][playerY - 1] != "#") {
         let someSpell = new grassSpell(playerX, playerY - 1, 3, "up");
         spells.push(someSpell);
@@ -175,6 +186,7 @@ function castingSpells() {
 
 
 function spellStuff() {
+  // continuously goes through the spell array and calls the spell functions so they can keep working
   for (let i = 0; i < spells.length; i++) {
     spells[i].implant();
     spells[i].move();

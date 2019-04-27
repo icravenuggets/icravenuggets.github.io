@@ -1,6 +1,6 @@
 
 
-
+// defining variables
 let lines, amountOfTiles,  tileSize, playerDirection, playerX, playerY, startingX, startingY, gameState;
 let counter;
 let cooldownTimer = 0;
@@ -11,6 +11,7 @@ let spells = [];
 
 
 function preload() {
+  // preloading levels, images, and eventually other things such as sound
   levelToLoad = "assets/levels/template.txt";
   lines = loadStrings(levelToLoad);
   playerUp = loadImage("assets/playerUp.png");
@@ -20,6 +21,7 @@ function preload() {
 }
 
 function setup() {
+  // setup functions such as setting default variables and calling one-time functions
   gameState = "game";
   windowResized();
   playerDirection = "up";
@@ -36,6 +38,7 @@ function setup() {
 }
 
 function createEmpty2dArray() {
+  // creates a 2-dimensional array consisting of only empty spaces
   let someGrid = [];
   for (let i = 0; i < amountOfTiles; i++) {
     someGrid.push([]);
@@ -47,6 +50,7 @@ function createEmpty2dArray() {
 }
 
 function findPlayer() {
+  // finds the player's original spot based on the loaded map to set the playerX and playerY variables
   for (let x = 0; x < amountOfTiles; x++) {
     for (let y = 0; y < amountOfTiles; y++) {
       if (field[x][y] === "p") {
@@ -58,6 +62,7 @@ function findPlayer() {
 }
 
 function windowResized() {
+  // called if the user resizes the window
   if (windowHeight > windowWidth) {
     windowSize = windowWidth;
   }
@@ -70,6 +75,7 @@ function windowResized() {
 
 
 function countingTime() {
+  // a function that counts time
   if (millis() - counter >= 100) {
     timerThing += 1;
     counter = millis();
