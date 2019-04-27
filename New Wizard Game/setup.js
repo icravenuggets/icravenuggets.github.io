@@ -1,8 +1,6 @@
-
-
 // defining variables
 let lines, amountOfTiles,  tileSize, playerDirection, playerX, playerY, startingX, startingY, gameState;
-let counter;
+let counter, spellSpeed, mapState;
 let cooldownTimer = 0;
 let timerThing = 0;
 let field = [];
@@ -12,8 +10,11 @@ let spells = [];
 
 function preload() {
   // preloading levels, images, and eventually other things such as sound
-  levelToLoad = "assets/levels/template.txt";
-  lines = loadStrings(levelToLoad);
+  levelOne = loadStrings("assets/levels/levelOne.txt");
+  levelTwo = loadStrings("assets/levels/levelTwo.txt");
+  levelThree = loadStrings("assets/levels/levelThree.txt");
+  levelFour = loadStrings("assets/levels/levelFour.txt");
+  levelFive = loadStrings("assets/levels/levelFive.txt");
   playerUp = loadImage("assets/playerUp.png");
   playerDown = loadImage("assets/playerDown.png");
   playerRight = loadImage("assets/playerRight.png");
@@ -22,9 +23,15 @@ function preload() {
 
 function setup() {
   // setup functions such as setting default variables and calling one-time functions
-  gameState = "game";
+  gameState = "mainMenu";
+  textAlign(CENTER, CENTER);
   windowResized();
+}
+
+function gameSetup() {
+  // Another setup function but only called when the game actually starts
   playerDirection = "up";
+  spellSpeed = 100;
   amountOfTiles = lines.length;
   field = createEmpty2dArray();
   for (let y = 0; y < amountOfTiles; y++) {

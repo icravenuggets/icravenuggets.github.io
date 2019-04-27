@@ -21,7 +21,7 @@ class fireSpell {
   }
 
   move() {
-    if (millis() - this.counter >= 200 && this.exists) {
+    if (millis() - this.counter >= this.speed && this.exists) {
       if (this.direction === "up") {
         field[this.x][this.y] = ".";
         if (field[this.x][this.y - 1] != "#") {
@@ -88,7 +88,7 @@ class waterSpell {
   }
 
   move() {
-    if (millis() - this.counter >= 200 && this.exists) {
+    if (millis() - this.counter >= this.speed && this.exists) {
       if (this.direction === "up") {
         field[this.x][this.y] = ".";
         if (field[this.x][this.y - 1] != "#") {
@@ -157,7 +157,7 @@ class grassSpell {
   }
 
   move() {
-    if (millis() - this.counter >= 200 && this.exists) {
+    if (millis() - this.counter >= this.speed && this.exists) {
       if (this.direction === "up") {
         field[this.x][this.y] = ".";
         if (field[this.x][this.y - 1] != "#") {
