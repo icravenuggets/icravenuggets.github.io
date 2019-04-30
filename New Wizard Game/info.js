@@ -7,3 +7,5 @@
 //      - When a player hits a wall they simply cannot move forwards
 //      - Whereas when a spell hits a wall, it disappears
 // - Have multiple fields (or maps) to battle on that can be loaded by the player
+// - Automatic movement by the spells in an array
+// - Cooldown on spells cast so they cannot be spammed
