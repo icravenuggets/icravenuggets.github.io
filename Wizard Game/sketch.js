@@ -90,9 +90,11 @@ function assignTiles() {
       else if (tileSpot === "p") {
         fill(255);
         rect(tileSize * i, tileSize * j, tileSize, tileSize);
-        // playerX = i;
-        // playerY = j;
       }
+      // else if (tileSpot === "o") {
+      //   fill(0);
+      //   rect(tileSize )
+      // }
     }
   }
 }

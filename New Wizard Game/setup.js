@@ -1,7 +1,8 @@
 // defining variables
-let lines, amountOfTiles,  tileSize, playerDirection, playerX, playerY, startingX, startingY, gameState;
+let lines, amountOfTiles,  tileSize, playerOneDirection, playerOneX, playerOneY, playerTwoDirection, playerTwoX, playerTwoY, startingX, startingY, gameState;
 let counter, spellSpeed, mapState;
-let cooldownTimer = 0;
+let cooldownTimerOne = 0;
+let cooldownTimerTwo = 0;
 let timerThing = 0;
 let field = [];
 let spells = [];
@@ -30,7 +31,8 @@ function setup() {
 
 function gameSetup() {
   // Another setup function but only called when the game actually starts
-  playerDirection = "up";
+  playerOneDirection = "up";
+  playerTwoDirection = "down";
   spellSpeed = 100;
   amountOfTiles = lines.length;
   field = createEmpty2dArray();
@@ -57,12 +59,16 @@ function createEmpty2dArray() {
 }
 
 function findPlayer() {
-  // finds the player's original spot based on the loaded map to set the playerX and playerY variables
+  // finds the player's original spot based on the loaded map to set the playerOneX and playerOneY variables
   for (let x = 0; x < amountOfTiles; x++) {
     for (let y = 0; y < amountOfTiles; y++) {
       if (field[x][y] === "p") {
-        playerX = x;
-        playerY = y;
+        playerOneX = x;
+        playerOneY = y;
+      }
+      if (field[x][y] === "o") {
+        playerTwoX = x;
+        playerTwoY = y;
       }
     }
   }
@@ -78,13 +84,4 @@ function windowResized() {
   }
   createCanvas(windowSize, windowSize);
   tileSize = windowSize / 20;
-}
-
-
-function countingTime() {
-  // a function that counts time
-  if (millis() - counter >= 100) {
-    timerThing += 1;
-    counter = millis();
-  }
 }

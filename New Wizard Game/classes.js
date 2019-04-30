@@ -4,7 +4,7 @@
 
 class fireSpell {
   // Firespell beats grass but disappears if it collides with a water spell
-  constructor(startingX, startingY, speed, direction) {
+  constructor(startingX, startingY, speed, direction, owner) {
     this.x = startingX;
     this.y = startingY;
     this.size = tileSize;
@@ -12,6 +12,7 @@ class fireSpell {
     this.direction = direction;
     this.counter = millis();
     this.exists = true;
+    this.owner = owner;
   }
 
   implant() {
@@ -71,7 +72,7 @@ class fireSpell {
 
 class waterSpell {
   // beats fire but loses to grass
-  constructor(startingX, startingY, speed, direction) {
+  constructor(startingX, startingY, speed, direction, owner) {
     this.x = startingX;
     this.y = startingY;
     this.size = tileSize;
@@ -79,6 +80,7 @@ class waterSpell {
     this.direction = direction;
     this.counter = millis();
     this.exists = true;
+    this.owner = owner;
   }
 
   implant() {
@@ -140,7 +142,7 @@ class waterSpell {
 
 class grassSpell {
   // beats water, loses to fire
-  constructor(startingX, startingY, speed, direction) {
+  constructor(startingX, startingY, speed, direction, owner) {
     this.x = startingX;
     this.y = startingY;
     this.size = tileSize;
@@ -148,6 +150,7 @@ class grassSpell {
     this.direction = direction;
     this.counter = millis();
     this.exists = true;
+    this.owner = owner;
   }
 
   implant() {
