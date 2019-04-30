@@ -6,4 +6,4 @@
 // - Explored different situations involving collision in an array
 //      - When a player hits a wall they simply cannot move forwards
 //      - Whereas when a spell hits a wall, it disappears
-// - Have multiple fields (or maps) to battle on
+// - Have multiple fields (or maps) to battle on that can be loaded by the player
