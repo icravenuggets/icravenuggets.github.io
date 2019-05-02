@@ -1,11 +1,13 @@
 // defining variables
 let lines, amountOfTiles,  tileSize, playerOneDirection, playerOneX, playerOneY, playerTwoDirection, playerTwoX, playerTwoY, startingX, startingY, gameState;
-let counter, spellSpeed, mapState;
+let counter, spellSpeed, mapState, windowSize;
 let cooldownTimerOne = 0;
 let cooldownTimerTwo = 0;
 let timerThing = 0;
 let field = [];
 let spells = [];
+let buttons = [];
+let buttonObject;
 
 
 
@@ -27,6 +29,9 @@ function setup() {
   gameState = "mainMenu";
   textAlign(CENTER, CENTER);
   windowResized();
+  buttonObject = {
+    mainMenuButton: new button(windowSize/2, windowSize/2, 100, "red", "PLAY")
+  };
 }
 
 function gameSetup() {

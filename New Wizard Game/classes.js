@@ -205,3 +205,34 @@ class grassSpell {
     }
   }
 }
+
+
+
+class button {
+  constructor(x, y, buttonHeight, color, text) {
+    // the x and y is in the center of the button
+    this.x = x - buttonHeight * 1.5 / 2;
+    this.y = y - buttonHeight / 2;
+    this.textX = x;
+    this.textY = y;
+    this.height = buttonHeight;
+    this.width = buttonHeight * 1.5;
+    this.color = color;
+    this.text = text;
+  }
+
+  display() {
+    fill(this.color);
+    rect(this.x, this.y, this.width, this.height);
+    textSize(this.width / 5);
+    fill(0);
+    text(this.text, this.textX, this.textY);
+  }
+}
+
+
+class healthbar {
+  constructor(x, y, health) {
+
+  }
+}
