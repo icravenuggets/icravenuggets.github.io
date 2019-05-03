@@ -232,7 +232,35 @@ class button {
 
 
 class healthbar {
-  constructor(x, y, health) {
+  constructor(x, y, maxHealth, remainingHealth, owner) {
+    this.maxHealth = maxHealth;
+    this.remainingHealth = remainingHealth;
+    this.x = x;
+    this.y = y;
+    this.owner = owner;
+  }
 
+  display(remainingHealth) {
+    this.remainingHealth = remainingHealth;
+    fill(255);
+    rect(this.x, this.y, this.maxHealth * (windowSize / 120), windowSize / 40);
+    fill(0, 255, 0);
+    if (this.remainingHealth <= this.maxHealth / 5) {
+      fill(255, 0, 0);
+    }
+    else if (this.remainingHealth <= this.maxHealth / 2) {
+      fill(255, 255, 0);
+    }
+    rect(this.x, this.y, this.remainingHealth * (windowSize / 120), windowSize / 40);
+
+    fill(0);
+    textSize(windowSize / 40);
+    textAlign(LEFT, TOP);
+    if (this.owner === 1) {
+      text("Player One: " + this.remainingHealth, windowSize - playerOneMaxHealth * (windowSize / 120), 0);
+    }
+    else  if (this.owner === 2) {
+      text("Player Two: " + this.remainingHealth, 0, windowSize - (windowSize / 40));
+    }
   }
 }

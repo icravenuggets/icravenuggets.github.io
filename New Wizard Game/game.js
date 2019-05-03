@@ -1,32 +1,3 @@
-function draw() {
-  // main draw loop consisting of functions that need to be called constantly
-  pickingGameState();
-}
-
-
-function pickingGameState() {
-  // determines what draw functions should be called based on what the game state is
-  if (gameState === "mainMenu") {
-    mainMenu();
-  }
-  else if (gameState === "game") {
-    assignTiles();
-    spellStuff();
-    countingTime();
-    showPlayer(playerOneX, playerOneY, playerTwoX, playerTwoY);
-  }
-}
-
-function mainMenu() {
-  // The main menu that shows up when you first start the page
-  fill(0);
-  textSize(width/7);
-  text("Wizard Game", width/2, height/2);
-  textSize(width/10);
-  text("Press a number 1 to 5", width/2, height - height/3);
-  buttonObject.mainMenuButton.display();
-}
-
 function assignTiles() {
   // combined with the showTiles function, this assigns and displays an image depending on array
   for (let y = 0; y < amountOfTiles; y++) {
@@ -91,35 +62,6 @@ function showPlayer(x, y, i, j) {
   }
 }
 
-
-function keyTyped() {
-  // called if a key on the keyboard is pressed
-  if (gameState === "mainMenu") {
-    if (key === "1" || key === "2" || key === "3" || key === "4" || key === "5") {
-      if (key === "1") {
-        lines = levelOne;
-      }
-      else if (key === "2") {
-        lines = levelTwo;
-      }
-      else if (key === "3") {
-        lines = levelThree;
-      }
-      else if (key === "4") {
-        lines = levelFour;
-      }
-      else if (key === "5") {
-        lines = levelFive;
-      }
-      gameSetup();
-      gameState = "game";
-    }
-  }
-  if (gameState === "game") {
-    playerMovement();
-    castingSpells();
-  }
-}
 
 function playerMovement() {
   // called by the keyTyped() function, this sees which key was pressed and moves the player as needed
@@ -193,6 +135,8 @@ function playerMovement() {
   }
 }
 
+
+
 function castingSpells() {
   // if the key pressed in keyTyped() is not a movement key, but a spell, this is called to cast the spell
   if ((key === "x" || key === "c" || key === "v") && millis() - cooldownTimerOne >= 1000) {
@@ -201,70 +145,134 @@ function castingSpells() {
       // fire spell
       if (playerOneDirection === "up" && field[playerOneX][playerOneY - 1] != "#") {
         // these shoot the spell in the correct direction and location and make new objects from the class
-        let someSpell = new fireSpell(playerOneX, playerOneY - 1, spellSpeed, "up", "p");
-        spells.push(someSpell);
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            if (field[playerOneX - 1 + i][playerOneY - 1 + j] != "#") {
+              let someSpell = new fireSpell(playerOneX - 1 + i, playerOneY - 1 + j, fireSpellSpeed, "up", "p");
+              spells.push(someSpell);
+            }
+          }
+        }
         cooldownTimerOne = millis();
       }
       else if (playerOneDirection === "down" && field[playerOneX][playerOneY + 1] != "#") {
-        let someSpell = new fireSpell(playerOneX, playerOneY + 1, spellSpeed, "down", "p");
-        spells.push(someSpell);
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            if (field[playerOneX - 1 + i][playerOneY - 1 + j] != "#") {
+              let someSpell = new fireSpell(playerOneX - 1 + i, playerOneY - 1 + j, fireSpellSpeed, "down", "p");
+              spells.push(someSpell);
+            }
+          }
+        }
         cooldownTimerOne = millis();
       }
       else if (playerOneDirection === "left" && field[playerOneX - 1][playerOneY] != "#") {
-        let someSpell = new fireSpell(playerOneX - 1, playerOneY, spellSpeed, "left", "p");
-        spells.push(someSpell);
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            if (field[playerOneX - 1 + i][playerOneY - 1 + j] != "#") {
+              let someSpell = new fireSpell(playerOneX - 1 + i, playerOneY - 1 + j, fireSpellSpeed, "left", "p");
+              spells.push(someSpell);
+            }
+          }
+        }
         cooldownTimerOne = millis();
       }
       else if (playerOneDirection === "right" && field[playerOneX + 1][playerOneY] != "#") {
-        let someSpell = new fireSpell(playerOneX + 1, playerOneY, spellSpeed, "right", "p");
-        spells.push(someSpell);
-        cooldownTimerOne = millis();
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            if (field[playerOneX - 1 + i][playerOneY - 1 + j] != "#") {
+              let someSpell = new fireSpell(playerOneX - 1 + i, playerOneY - 1 + j, fireSpellSpeed, "right", "p");
+              spells.push(someSpell);
+            }
+          }
+        }
+        cooldownTimerOne = millis();;
       }
     }
     else if (key === "c") {
       // water spell
       if (playerOneDirection === "up" && field[playerOneX][playerOneY - 1] != "#") {
-        let someSpell = new waterSpell(playerOneX, playerOneY - 1, spellSpeed, "up", "p");
-        spells.push(someSpell);
+
+
+
+        // for (let i = 0; i < 3; i++) {
+        //   for (let j = 0; j < 3; j++) {
+        //     if (field[playerOneX - 1 + i][playerOneY - 1 + j] != "#") {
+        //       let someSpell = new fireSpell(playerOneX - 1 + i, playerOneY - 1 + j, fireSpellSpeed, "up", "p");
+        //       spells.push(someSpell);
+        //     }
+        //   }
+        // }
+
+        for (let i = 0; i < 5; i++) {
+          if (i > 2) {
+            if (field[playerOneX - 2 + i][playerOneY - 3 + i] != "#") {
+              let someSpell = new waterSpell(playerOneX - 2 + i, playerOneY - 3 + i, waterSpellSpeed, "up", "p");
+              spells.push(someSpell);
+            }
+          }
+          else {
+            if (field[playerOneX - 2 + i][playerOneY + 1 - 1] != "#") {
+              let someSpell = new waterSpell(playerOneX - 2 + i, playerOneY + 1 - i, waterSpellSpeed, "up", "p");
+              spells.push(someSpell);
+            }
+          }
+        }
         cooldownTimerOne = millis();
       }
       else if (playerOneDirection === "down" && field[playerOneX][playerOneY + 1] != "#") {
-        let someSpell = new waterSpell(playerOneX, playerOneY + 1, spellSpeed, "down", "p");
+        let someSpell = new waterSpell(playerOneX, playerOneY + 1, waterSpellSpeed, "down", "p");
         spells.push(someSpell);
         cooldownTimerOne = millis();
       }
       else if (playerOneDirection === "left" && field[playerOneX - 1][playerOneY] != "#") {
-        let someSpell = new waterSpell(playerOneX - 1, playerOneY, spellSpeed, "left", "p");
+        let someSpell = new waterSpell(playerOneX - 1, playerOneY, waterSpellSpeed, "left", "p");
         spells.push(someSpell);
         cooldownTimerOne = millis();
       }
       else if (playerOneDirection === "right" && field[playerOneX + 1][playerOneY] != "#") {
-        let someSpell = new waterSpell(playerOneX + 1, playerOneY, spellSpeed, "right", "p");
+        let someSpell = new waterSpell(playerOneX + 1, playerOneY, waterSpellSpeed, "right", "p");
         spells.push(someSpell);
         cooldownTimerOne = millis();
       }
     }
     else if (key === "v") {
       // grass spell
-      if (playerOneDirection === "up" && field[playerOneX][playerOneY - 1] != "#") {
-        let someSpell = new grassSpell(playerOneX, playerOneY - 1, spellSpeed, "up", "p");
-        spells.push(someSpell);
+      if (playerOneDirection === "up" && field[playerOneX][playerOneY - 2] != "#") {
+        for (let i = 0; i < 5; i++) {
+          if (field[playerOneX][playerOneY - 2 + i] != "#") {
+            let someSpell = new grassSpell(playerOneX, playerOneY - 2 + i, grassSpellSpeed, "up", "p");
+            spells.push(someSpell);
+          }
         cooldownTimerOne = millis();
+        }
       }
-      else if (playerOneDirection === "down" && field[playerOneX][playerOneY + 1] != "#") {
-        let someSpell = new grassSpell(playerOneX, playerOneY + 1, spellSpeed, "down", "p");
-        spells.push(someSpell);
+      else if (playerOneDirection === "down" && field[playerOneX][playerOneY + 2] != "#") {
+        for (let i = 0; i < 5; i++) {
+          if (field[playerOneX][playerOneY - 2 + i] != "#") {
+            let someSpell = new grassSpell(playerOneX, playerOneY - 2 + i, grassSpellSpeed, "down", "p");
+            spells.push(someSpell);
+          }
         cooldownTimerOne = millis();
+        }
       }
-      else if (playerOneDirection === "left" && field[playerOneX - 1][playerOneY] != "#") {
-        let someSpell = new grassSpell(playerOneX - 1, playerOneY, spellSpeed, "left", "p");
-        spells.push(someSpell);
+      else if (playerOneDirection === "left" && field[playerOneX - 2][playerOneY] != "#") {
+        for (let i = 0; i < 5; i++) {
+          if (field[playerOneX - 2 + i][playerOneY] != "#") {
+            let someSpell = new grassSpell(playerOneX - 2 + i, playerOneY, grassSpellSpeed, "left", "p");
+            spells.push(someSpell);
+          }
         cooldownTimerOne = millis();
+        }
       }
-      else if (playerOneDirection === "right" && field[playerOneX + 1][playerOneY] != "#") {
-        let someSpell = new grassSpell(playerOneX + 1, playerOneY, spellSpeed, "right", "p");
-        spells.push(someSpell);
+      else if (playerOneDirection === "right" && field[playerOneX + 2][playerOneY] != "#") {
+        for (let i = 0; i < 5; i++) {
+          if (field[playerOneX - 2 + i][playerOneY] != "#") {
+            let someSpell = new grassSpell(playerOneX - 2 + i, playerOneY, grassSpellSpeed, "right", "p");
+            spells.push(someSpell);
+          }
         cooldownTimerOne = millis();
+        }
       }
     }
   }
@@ -276,45 +284,69 @@ function castingSpells() {
     if (key === ",") {
       // fire spell
       if (playerTwoDirection === "up" && field[playerTwoX][playerTwoY - 1] != "#") {
-        let someSpell = new fireSpell(playerTwoX, playerTwoY - 1, spellSpeed, "up", "o");
-        spells.push(someSpell);
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            if (field[playerTwoX - 1 + i][playerTwoY - 1 + j] != "#") {
+              let someSpell = new fireSpell(playerTwoX - 1 + i, playerTwoY - 1 + j, fireSpellSpeed, "up", "o");
+              spells.push(someSpell);
+            }
+          }
+        }
         cooldownTimerTwo = millis();
       }
       else if (playerTwoDirection === "down" && field[playerTwoX][playerTwoY + 1] != "#") {
-        let someSpell = new fireSpell(playerTwoX, playerTwoY + 1, spellSpeed, "down", "o");
-        spells.push(someSpell);
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            if (field[playerTwoX - 1 + i][playerTwoY - 1 + j] != "#") {
+              let someSpell = new fireSpell(playerTwoX - 1 + i, playerTwoY - 1 + j, fireSpellSpeed, "down", "o");
+              spells.push(someSpell);
+            }
+          }
+        }
         cooldownTimerTwo = millis();
       }
       else if (playerTwoDirection === "left" && field[playerTwoX - 1][playerTwoY] != "#") {
-        let someSpell = new fireSpell(playerTwoX - 1, playerTwoY, spellSpeed, "left", "o");
-        spells.push(someSpell);
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            if (field[playerTwoX - 1 + i][playerTwoY - 1 + j] != "#") {
+              let someSpell = new fireSpell(playerTwoX - 1 + i, playerTwoY - 1 + j, fireSpellSpeed, "left", "o");
+              spells.push(someSpell);
+            }
+          }
+        }
         cooldownTimerTwo = millis();
       }
       else if (playerTwoDirection === "right" && field[playerTwoX + 1][playerTwoY] != "#") {
-        let someSpell = new fireSpell(playerTwoX + 1, playerTwoY, spellSpeed, "right", "o");
-        spells.push(someSpell);
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            if (field[playerTwoX - 1 + i][playerTwoY - 1 + j] != "#") {
+              let someSpell = new fireSpell(playerTwoX - 1 + i, playerTwoY - 1 + j, fireSpellSpeed, "right", "o");
+              spells.push(someSpell);
+            }
+          }
+        }
         cooldownTimerTwo = millis();
       }
     }
     else if (key === ".") {
       // water spell
       if (playerTwoDirection === "up" && field[playerTwoX][playerTwoY - 1] != "#") {
-        let someSpell = new waterSpell(playerTwoX, playerTwoY - 1, spellSpeed, "up", "o");
+        let someSpell = new waterSpell(playerTwoX, playerTwoY - 1, waterSpellSpeed, "up", "o");
         spells.push(someSpell);
         cooldownTimerTwo = millis();
       }
       else if (playerTwoDirection === "down" && field[playerTwoX][playerTwoY + 1] != "#") {
-        let someSpell = new waterSpell(playerTwoX, playerTwoY + 1, spellSpeed, "down", "o");
+        let someSpell = new waterSpell(playerTwoX, playerTwoY + 1, waterSpellSpeed, "down", "o");
         spells.push(someSpell);
         cooldownTimerTwo = millis();
       }
       else if (playerTwoDirection === "left" && field[playerTwoX - 1][playerTwoY] != "#") {
-        let someSpell = new waterSpell(playerTwoX - 1, playerTwoY, spellSpeed, "left", "o");
+        let someSpell = new waterSpell(playerTwoX - 1, playerTwoY, waterSpellSpeed, "left", "o");
         spells.push(someSpell);
         cooldownTimerTwo = millis();
       }
       else if (playerTwoDirection === "right" && field[playerTwoX + 1][playerTwoY] != "#") {
-        let someSpell = new waterSpell(playerTwoX + 1, playerTwoY, spellSpeed, "right", "o");
+        let someSpell = new waterSpell(playerTwoX + 1, playerTwoY, waterSpellSpeed, "right", "o");
         spells.push(someSpell);
         cooldownTimerTwo = millis();
       }
@@ -322,24 +354,40 @@ function castingSpells() {
     else if (key === "/") {
       // grass spell
       if (playerTwoDirection === "up" && field[playerTwoX][playerTwoY - 1] != "#") {
-        let someSpell = new grassSpell(playerTwoX, playerTwoY - 1, spellSpeed, "up", "o");
-        spells.push(someSpell);
+        for (let i = 0; i < 5; i++) {
+          if (field[playerTwoX][playerTwoY - 2 + i] != "#") {
+            let someSpell = new grassSpell(playerTwoX, playerTwoY - 2 + i, grassSpellSpeed, "up", "o");
+            spells.push(someSpell);
+          }
         cooldownTimerTwo = millis();
+        }
       }
       else if (playerTwoDirection === "down" && field[playerTwoX][playerTwoY + 1] != "#") {
-        let someSpell = new grassSpell(playerTwoX, playerTwoY + 1, spellSpeed, "down", "o");
-        spells.push(someSpell);
+        for (let i = 0; i < 5; i++) {
+          if (field[playerTwoX][playerTwoY - 2 + i] != "#") {
+            let someSpell = new grassSpell(playerTwoX, playerTwoY - 2 + i, grassSpellSpeed, "down", "o");
+            spells.push(someSpell);
+          }
         cooldownTimerTwo = millis();
+        }
       }
       else if (playerTwoDirection === "left" && field[playerTwoX - 1][playerTwoY] != "#") {
-        let someSpell = new grassSpell(playerTwoX - 1, playerTwoY, spellSpeed, "left", "o");
-        spells.push(someSpell);
+        for (let i = 0; i < 5; i++) {
+          if (field[playerTwoX - 2 + i][playerTwoY] != "#") {
+            let someSpell = new grassSpell(playerTwoX - 2 + i, playerTwoY, grassSpellSpeed, "left", "o");
+            spells.push(someSpell);
+          }
         cooldownTimerTwo = millis();
+        }
       }
       else if (playerTwoDirection === "right" && field[playerTwoX + 1][playerTwoY] != "#") {
-        let someSpell = new grassSpell(playerTwoX + 1, playerTwoY, spellSpeed, "right", "o");
-        spells.push(someSpell);
+        for (let i = 0; i < 5; i++) {
+          if (field[playerTwoX - 2 + i][playerTwoY] != "#") {
+            let someSpell = new grassSpell(playerTwoX - 2 + i, playerTwoY, grassSpellSpeed, "right", "o");
+            spells.push(someSpell);
+          }
         cooldownTimerTwo = millis();
+        }
       }
     }
   }
@@ -358,15 +406,15 @@ function spellStuff() {
 
 function countingTime() {
   // a function that counts time
-  if (millis() - counter >= 100) {
-    timerThing += 1;
+  if (millis() - counter >= 1000) {
     counter = millis();
+    playerOneRemainingHealth -= 1;
+    playerTwoRemainingHealth -= 1;
   }
 }
 
 
-function mousePressed() {
-  // If the mouse is pressed at any point
-  // Nothing yet here
+function healthStuff() {
+  healthbarObject.playerOneHealthbar.display(playerOneRemainingHealth);
+  healthbarObject.playerTwoHealthbar.display(playerTwoRemainingHealth);
 }
-

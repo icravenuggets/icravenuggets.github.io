@@ -1,13 +1,13 @@
 // defining variables
 let lines, amountOfTiles,  tileSize, playerOneDirection, playerOneX, playerOneY, playerTwoDirection, playerTwoX, playerTwoY, startingX, startingY, gameState;
-let counter, spellSpeed, mapState, windowSize;
+let counter, fireSpellSpeed, waterSpellSpeed, grassSpellSpeed, mapState, windowSize, health;
 let cooldownTimerOne = 0;
 let cooldownTimerTwo = 0;
-let timerThing = 0;
 let field = [];
 let spells = [];
 let buttons = [];
-let buttonObject;
+let buttonObject, healthbarObject;
+let playerOneMaxHealth, playerTwoMaxHealth, playerOneRemainingHealth, playerTwoRemainingHealth;
 
 
 
@@ -29,16 +29,19 @@ function setup() {
   gameState = "mainMenu";
   textAlign(CENTER, CENTER);
   windowResized();
-  buttonObject = {
-    mainMenuButton: new button(windowSize/2, windowSize/2, 100, "red", "PLAY")
-  };
 }
 
 function gameSetup() {
   // Another setup function but only called when the game actually starts
   playerOneDirection = "up";
   playerTwoDirection = "down";
-  spellSpeed = 100;
+  playerOneMaxHealth = 50;
+  playerOneRemainingHealth = playerOneMaxHealth;
+  playerTwoMaxHealth = 50;
+  playerTwoRemainingHealth = playerTwoMaxHealth;
+  fireSpellSpeed = 100;
+  waterSpellSpeed = 150;
+  grassSpellSpeed = 50;
   amountOfTiles = lines.length;
   field = createEmpty2dArray();
   for (let y = 0; y < amountOfTiles; y++) {
@@ -49,6 +52,7 @@ function gameSetup() {
   }
   findPlayer();
   counter = millis();
+  objects();
 }
 
 function createEmpty2dArray() {
@@ -89,4 +93,15 @@ function windowResized() {
   }
   createCanvas(windowSize, windowSize);
   tileSize = windowSize / 20;
+  objects();
+}
+
+function objects() {
+  buttonObject = {
+    mainMenuButton: new button(windowSize/2, windowSize/2, windowSize / 10, "red", "PLAY")
+  };
+  healthbarObject = {
+    playerOneHealthbar: new healthbar(windowSize - playerOneMaxHealth * (windowSize / 120), 0, playerOneMaxHealth, playerOneRemainingHealth, 1),
+    playerTwoHealthbar: new healthbar(0, windowSize - (windowSize / 40), playerTwoMaxHealth, playerTwoRemainingHealth, 2),
+  };
 }
